@@ -1,0 +1,19 @@
+- name: sound-classifier-p2     
+  kind: RealtimeAPI
+  predictor:
+    type: tensorflow
+    path: predictor.py
+    models:
+      path: s3://cortex-examples/tensorflow/sound-classifier/yamnet/
+      signature_key: serving_default
+    processes_per_replica: 4
+    threads_per_process: 384
+  compute:
+    cpu: 3
+    gpu: 1
+    mem: 4G
+  autoscaling:
+    min_replicas: 1
+    max_replicas: 1
+    max_replica_concurrency: 8192
+
