@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-CORTEX_VERSION=0.31.1
+CORTEX_VERSION=master
 
 set -eo pipefail
 
