@@ -103,7 +103,7 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 		return nil, err
 	}
 
-	apiLogger.Infof("%s autoscaler init", apiName)
+	apiLogger.Infof("%s wja300 autoscaler init", apiName)
 
 	var startTime time.Time
 	recs := make(recommendations)
