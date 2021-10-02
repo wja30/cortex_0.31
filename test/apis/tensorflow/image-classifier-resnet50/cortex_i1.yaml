@@ -21,4 +21,5 @@
     min_replicas: 1
     max_replicas: 1
     max_replica_concurrency: 8192
+    window: 60s
 

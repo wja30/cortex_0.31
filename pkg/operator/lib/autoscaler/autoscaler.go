@@ -205,6 +205,9 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 				"upscale_stabilization_period":   autoscalingSpec.UpscaleStabilizationPeriod,
 				"upscale_stabilization_ceil":     strings.ObjFlatNoQuotes(upscaleStabilizationCeil),
 				"request":                        request,
+				"Window" :                        autoscalingSpec.Window,
+				"Period" :			  time.Since(startTime),
+				"Period_second" :		  int32(time.Since(startTime)/1000000000),
 			},
 		)
 
