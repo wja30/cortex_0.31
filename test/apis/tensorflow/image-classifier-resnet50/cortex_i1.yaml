@@ -3,6 +3,7 @@
   predictor:
     type: tensorflow
     path: predictor.py
+    log_level: debug
     models:
       path: s3://cortex-examples/tensorflow/resnet50/
     processes_per_replica: 4
