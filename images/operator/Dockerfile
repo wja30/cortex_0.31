@@ -25,5 +25,7 @@ RUN apk --no-cache add ca-certificates bash
 COPY --from=builder /go/src/github.com/cortexlabs/cortex/pkg/operator/operator /root/
 RUN chmod +x /root/operator
 
+COPY pkg/operator/lib/autoscaler/tweet_load_predict_5min_10-16.csv /
+
 EXPOSE 8888
 ENTRYPOINT ["/root/operator"]

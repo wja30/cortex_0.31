@@ -20,7 +20,9 @@ import (
 	"fmt"
 	"math"
 	"time"
-
+	"bufio"
+	"encoding/csv"
+	"os"
 	"github.com/cortexlabs/cortex/pkg/lib/errors"
 	math2 "github.com/cortexlabs/cortex/pkg/lib/math"
 	"github.com/cortexlabs/cortex/pkg/lib/strings"
@@ -103,7 +105,8 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 		return nil, err
 	}
 
-	apiLogger.Infof("%s wja300 autoscaler init", apiName)
+
+	apiLogger.Debugf("%s wja300 autoscaler init", apiName)
 
 	var startTime time.Time
 	recs := make(recommendations)
@@ -138,6 +141,28 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 		if recommendation < downscaleFactorFloor {
 			recommendation = downscaleFactorFloor
 		}
+
+		dir, err := os.Getwd()
+		if err != nil {
+			fmt.Print("wja300 getwd error:\n", err)
+		}
+		fmt.Print("wja300 current directory : ", dir)
+
+		// 파일 오픈
+		file, err := os.Open("./tweet_load_predict_5min_10-16.csv")
+		if err != nil {	
+			fmt.Print("wja300 os open error:\n", err)
+		}
+		// csv reader 생성
+		rdr := csv.NewReader(bufio.NewReader(file))
+		// csv 내용 모두 읽기
+		rows, err := rdr.ReadAll()
+		if err != nil {	
+			fmt.Print("wja300 ReadAll error:\n", err)
+		}
+
+		fmt.Print("wja300:\n", rows)
+		
 
 		// always allow addition of 1
 		upscaleFactorCeil := math2.MaxInt32(currentReplicas+1, int32(math.Ceil(float64(currentReplicas)*autoscalingSpec.MaxUpscaleFactor)))
@@ -208,6 +233,7 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 				"Window" :                        autoscalingSpec.Window,
 				"Period" :			  time.Since(startTime),
 				"Period_second" :		  int32(time.Since(startTime)/1000000000),
+				"Rows" :                          rows,
 			},
 		)
 
