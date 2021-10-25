@@ -32,6 +32,8 @@ import (
 	"github.com/cortexlabs/cortex/pkg/types/spec"
 	"github.com/cortexlabs/cortex/pkg/types/userconfig"
 	kapps "k8s.io/api/apps/v1"
+	sstrings "strings"
+	"strconv"
 )
 
 // GetInFlightFunc is the function signature used by the autoscaler to retrieve
@@ -142,11 +144,11 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 			recommendation = downscaleFactorFloor
 		}
 
-		dir, err := os.Getwd()
-		if err != nil {
-			fmt.Print("wja300 getwd error:\n", err)
-		}
-		fmt.Print("wja300 current directory : ", dir)
+//		dir, err := os.Getwd()
+//		if err != nil {
+//			fmt.Print("wja300 getwd error:\n", err)
+//		}
+//		fmt.Print("wja300 current directory : ", dir)
 
 		// 파일 오픈
 		file, err := os.Open("./tweet_load_predict_5min_10-16.csv")
@@ -161,7 +163,7 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 			fmt.Print("wja300 ReadAll error:\n", err)
 		}
 
-		fmt.Print("wja300:\n", rows)
+		//fmt.Print("wja300:\n", rows)
 		
 
 		// always allow addition of 1
@@ -233,29 +235,69 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 				"Window" :                        autoscalingSpec.Window,
 				"Period" :			  time.Since(startTime),
 				"Period_second" :		  int32(time.Since(startTime)/1000000000),
-				"Rows" :                          rows,
+				"Rows" :                          rows[1],
 			},
 		)
 
-		if currentReplicas != request {
-			apiLogger.Infof("%s autoscaling event: %d -> %d", apiName, currentReplicas, request)
+		num_rows := 0
+		
+		// 행,열 읽기
+    		for i, _ := range rows {
+		num_rows = i
+    		}
 
-			deployment, err := config.K8s.GetDeployment(initialDeployment.Name)
-			if err != nil {
-				return err
+		period_second := int32(time.Since(startTime)/1000000000)
+		row_count := period_second / 60
+		timeout := 15
+		num_reqs := 0.0
+		conv_reqs := 0.0
+
+                fmt.Print(" wja300 num_rows : ", num_rows)
+		fmt.Print(" wja300 row_count : ", row_count)
+		fmt.Print(" wja300 timeout : ", timeout)
+
+		if (row_count  > int32(timeout) || row_count +4 >= int32(num_rows)){
+			// nothing done
+		} else if (sstrings.Contains(apiName, "resnet50") && sstrings.Contains(apiName, "i1") ){
+				if (period_second % 60 == 0) { // every 1 minutes
+					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
+
+					// weight conversion (alg3.1)
+
+					// weight conversion (alg3.6)
+
+					// weight conversion (alg3.7)
+
+					conv_reqs = float64(num_reqs) / float64(444) // i1 - resnet50
+					request = int32(math.Ceil(conv_reqs)) // i1 - resnet50
+					fmt.Print(" wja300 num_reqs : ", num_reqs)
+					fmt.Print(" wja300 conv_reqs : ", conv_reqs)
+					fmt.Print(" wja300 request : ", request)
+				}
+		}
+
+		if (period_second % 60 == 0){
+
+			if currentReplicas != request {
+				apiLogger.Infof("%s autoscaling event: %d -> %d", apiName, currentReplicas, request)
+
+				deployment, err := config.K8s.GetDeployment(initialDeployment.Name)
+				if err != nil {
+					return err
+				}
+
+				if deployment == nil {
+					return errors.ErrorUnexpected("unable to find k8s deployment", apiName)
+				}
+
+				deployment.Spec.Replicas = &request
+
+				if _, err := config.K8s.UpdateDeployment(deployment); err != nil {
+					return err
+				}
+
+				currentReplicas = request
 			}
-
-			if deployment == nil {
-				return errors.ErrorUnexpected("unable to find k8s deployment", apiName)
-			}
-
-			deployment.Spec.Replicas = &request
-
-			if _, err := config.K8s.UpdateDeployment(deployment); err != nil {
-				return err
-			}
-
-			currentReplicas = request
 		}
 
 		return nil
