@@ -1,0 +1,27 @@
+
+package main
+import (
+	"encoding/csv"
+	"fmt"
+	"bufio"
+	"os"
+)
+
+func main() {
+
+
+
+// 파일 오픈
+                file_spec, err := os.Open("./spec_test.csv")
+                if err != nil { 
+                        fmt.Print("wja300 spec.csv open error:\n", err)
+                }
+                // csv reader 생성
+                rdr_spec := csv.NewReader(bufio.NewReader(file_spec))
+                // csv 내용 모두 읽기
+                rows_spec, err := rdr_spec.ReadAll()
+                if err != nil { 
+                        fmt.Print("wja300 rows_spec ReadAll error:\n", err)
+                }
+		fmt.Print(rows_spec)
+	}
