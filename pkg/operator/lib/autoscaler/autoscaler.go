@@ -285,8 +285,7 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 
 		if (row_count  > int32(timeout) || row_count +4 >= int32(num_rows)){
 			// nothing done
-		}
-		else if (sstrings.Contains(apiName, "resnet50") && sstrings.Contains(apiName, "i1") && sstrings.Contains(apiName, "37") ){  // alg3.7 i1 - resnet50
+		} else if (sstrings.Contains(apiName, "resnet50") && sstrings.Contains(apiName, "i1") && sstrings.Contains(apiName, "37") ){  // alg3.7 i1 - resnet50
 				if (period_second % 60 == 0) { // every 1 minutes
 					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
 					// weight conversion (alg3.7) num_reqs -> converting
@@ -308,8 +307,8 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 							fmt.Print(" wja300 amplification : ", amplification)
 						}
 					}
-					num_reqs = num_reqs*amplification
-					num_reqs = num_reqs*workload_ratio/100*workload_instance_ratio/100 // alg3.7 i1 - resnet50 converting
+					//num_reqs = num_reqs*amplification
+					//num_reqs = num_reqs*workload_ratio/100*workload_instance_ratio/100 // alg3.7 i1 - resnet50 converting
 					conv_reqs = float64(num_reqs) / reqs_base // i1 - resnet50
 					if(request > int32(math.Ceil(conv_reqs))){
 						// nothing done
@@ -320,8 +319,7 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 					fmt.Print(" wja300 conv_reqs : ", conv_reqs)
 					fmt.Print(" wja300 request : ", request)
 				}
-		} 
-		else if (sstrings.Contains(apiName, "sentiment") && sstrings.Contains(apiName, "i1") && sstrings.Contains(apiName, "37") ){  // alg3.7 i1 - bert
+		} else if (sstrings.Contains(apiName, "sentiment") && sstrings.Contains(apiName, "i1") && sstrings.Contains(apiName, "37") ){  // alg3.7 i1 - bert
 				if (period_second % 60 == 0) { // every 1 minutes
 					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
 					// weight conversion (alg3.7) num_reqs -> converting
@@ -343,8 +341,8 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 							fmt.Print(" wja300 amplification : ", amplification)
 						}
 					}
-					num_reqs = num_reqs*amplification
-					num_reqs = num_reqs*workload_ratio/100*workload_instance_ratio/100 // alg3.7 i1 - resnet50 converting
+					//num_reqs = num_reqs*amplification
+					//num_reqs = num_reqs*workload_ratio/100*workload_instance_ratio/100 // alg3.7 i1 - resnet50 converting
 					conv_reqs = float64(num_reqs) / reqs_base // i1 - resnet50
 					if(request > int32(math.Ceil(conv_reqs))){
 						// nothing done
@@ -355,8 +353,7 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 					fmt.Print(" wja300 conv_reqs : ", conv_reqs)
 					fmt.Print(" wja300 request : ", request)
 				}
-		} 
-		else if (sstrings.Contains(apiName, "text") && sstrings.Contains(apiName, "i1") && sstrings.Contains(apiName, "37") ){  // alg3.7 i1 - gpt
+		} else if (sstrings.Contains(apiName, "text") && sstrings.Contains(apiName, "i1") && sstrings.Contains(apiName, "37") ){  // alg3.7 i1 - gpt
 				if (period_second % 60 == 0) { // every 1 minutes
 					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
 					// weight conversion (alg3.7) num_reqs -> converting
@@ -390,8 +387,7 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 					fmt.Print(" wja300 conv_reqs : ", conv_reqs)
 					fmt.Print(" wja300 request : ", request)
 				}
-		} 
-		else if (sstrings.Contains(apiName, "sound") && sstrings.Contains(apiName, "i1") && sstrings.Contains(apiName, "37") ){  // alg3.7 i1 - yamnet
+		} else if (sstrings.Contains(apiName, "sound") && sstrings.Contains(apiName, "i1") && sstrings.Contains(apiName, "37") ){  // alg3.7 i1 - yamnet
 				if (period_second % 60 == 0) { // every 1 minutes
 					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
 					// weight conversion (alg3.7) num_reqs -> converting
@@ -425,8 +421,7 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 					fmt.Print(" wja300 conv_reqs : ", conv_reqs)
 					fmt.Print(" wja300 request : ", request)
 				}
-		} 
-		else if (sstrings.Contains(apiName, "inception") && sstrings.Contains(apiName, "i1") && sstrings.Contains(apiName, "37") ){  // alg3.7 i1 - inception
+		} else if (sstrings.Contains(apiName, "inception") && sstrings.Contains(apiName, "i1") && sstrings.Contains(apiName, "37") ){  // alg3.7 i1 - inception
 				if (period_second % 60 == 0) { // every 1 minutes
 					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
 					// weight conversion (alg3.7) num_reqs -> converting
@@ -460,8 +455,517 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 					fmt.Print(" wja300 conv_reqs : ", conv_reqs)
 					fmt.Print(" wja300 request : ", request)
 				}
-		} 
-
+		} else if (sstrings.Contains(apiName, "resnet50") && sstrings.Contains(apiName, "p2") && sstrings.Contains(apiName, "37") ){  // alg3.7 p2 - resnet50
+				if (period_second % 60 == 0) { // every 1 minutes
+					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
+					// weight conversion (alg3.7) num_reqs -> converting
+					for i, _ := range rows_spec {
+						if (rows_spec[i][0] == "p2R"){
+							reqs_base, _ = strconv.ParseFloat(rows_spec[i][1], 64) // rows_sepc[i][1] = i1R's reqs_base
+							fmt.Print(" wja300 R reqs_base : ", reqs_base)
+						}
+						if (rows_spec[i][0] == "ratio"){
+							workload_ratio, _  = strconv.ParseFloat(rows_spec[i][1], 64) // rows_spec[i][1]:R'ratio, [i][2]:B, [i][3]:G, [i][4]:Y, [i][5]:S
+							fmt.Print(" wja300 workload_ratio : ", workload_ratio)
+						}
+						if (rows_spec[i][0] == "alg37p2"){
+							workload_instance_ratio, _  = strconv.ParseFloat(rows_spec[i][1], 64) // rows_spec[i][1]:R's I ratio, [i][2]:B's I ratio, [i][3]:G's I, [i][4]:Y's I, [i][5]:S's I
+							fmt.Print(" wja300 workload_instance_ratio : ", workload_instance_ratio)
+						}
+						if (rows_spec[i][0] == "amplification"){
+							amplification, _ = strconv.ParseFloat(rows_spec[i][1], 64) 
+							fmt.Print(" wja300 amplification : ", amplification)
+						}
+					}
+					num_reqs = num_reqs*amplification
+					num_reqs = num_reqs*workload_ratio/100*workload_instance_ratio/100 // alg3.7 i1 - resnet50 converting
+					conv_reqs = float64(num_reqs) / reqs_base // i1 - resnet50
+					if(request > int32(math.Ceil(conv_reqs))){
+						// nothing done
+					} else {
+						request = int32(math.Ceil(conv_reqs))
+					}
+					fmt.Print(" wja300 num_reqs : ", num_reqs)
+					fmt.Print(" wja300 conv_reqs : ", conv_reqs)
+					fmt.Print(" wja300 request : ", request)
+				}
+		} else if (sstrings.Contains(apiName, "sentiment") && sstrings.Contains(apiName, "p2") && sstrings.Contains(apiName, "37") ){  // alg3.7 p2 - bert
+				if (period_second % 60 == 0) { // every 1 minutes
+					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
+					// weight conversion (alg3.7) num_reqs -> converting
+					for i, _ := range rows_spec {
+						if (rows_spec[i][0] == "p2B"){
+							reqs_base, _ = strconv.ParseFloat(rows_spec[i][1], 64) // rows_sepc[i][1] = i1R's reqs_base
+							fmt.Print(" wja300 B reqs_base : ", reqs_base)
+						}
+						if (rows_spec[i][0] == "ratio"){
+							workload_ratio, _  = strconv.ParseFloat(rows_spec[i][2], 64) // rows_spec[i][1]:R'ratio, [i][2]:B, [i][3]:G, [i][4]:Y, [i][5]:S
+							fmt.Print(" wja300 workload_ratio : ", workload_ratio)
+						}
+						if (rows_spec[i][0] == "alg37p2"){
+							workload_instance_ratio, _  = strconv.ParseFloat(rows_spec[i][2], 64) // rows_spec[i][1]:R's I ratio, [i][2]:B's I ratio, [i][3]:G's I, [i][4]:Y's I, [i][5]:S's I
+							fmt.Print(" wja300 workload_instance_ratio : ", workload_instance_ratio)
+						}
+						if (rows_spec[i][0] == "amplification"){
+							amplification, _ = strconv.ParseFloat(rows_spec[i][1], 64) 
+							fmt.Print(" wja300 amplification : ", amplification)
+						}
+					}
+					num_reqs = num_reqs*amplification
+					num_reqs = num_reqs*workload_ratio/100*workload_instance_ratio/100 // alg3.7 i1 - resnet50 converting
+					conv_reqs = float64(num_reqs) / reqs_base // i1 - resnet50
+					if(request > int32(math.Ceil(conv_reqs))){
+						// nothing done
+					} else {
+						request = int32(math.Ceil(conv_reqs))
+					}
+					fmt.Print(" wja300 num_reqs : ", num_reqs)
+					fmt.Print(" wja300 conv_reqs : ", conv_reqs)
+					fmt.Print(" wja300 request : ", request)
+				}
+		} else if (sstrings.Contains(apiName, "text") && sstrings.Contains(apiName, "p2") && sstrings.Contains(apiName, "37") ){  // alg3.7 p2 - gpt
+				if (period_second % 60 == 0) { // every 1 minutes
+					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
+					// weight conversion (alg3.7) num_reqs -> converting
+					for i, _ := range rows_spec {
+						if (rows_spec[i][0] == "p2G"){
+							reqs_base, _ = strconv.ParseFloat(rows_spec[i][1], 64) // rows_sepc[i][1] = i1R's reqs_base
+							fmt.Print(" wja300 G reqs_base : ", reqs_base)
+						}
+						if (rows_spec[i][0] == "ratio"){
+							workload_ratio, _  = strconv.ParseFloat(rows_spec[i][3], 64) // rows_spec[i][1]:R'ratio, [i][2]:B, [i][3]:G, [i][4]:Y, [i][5]:S
+							fmt.Print(" wja300 workload_ratio : ", workload_ratio)
+						}
+						if (rows_spec[i][0] == "alg37p2"){
+							workload_instance_ratio, _  = strconv.ParseFloat(rows_spec[i][3], 64) // rows_spec[i][1]:R's I ratio, [i][2]:B's I ratio, [i][3]:G's I, [i][4]:Y's I, [i][5]:S's I
+							fmt.Print(" wja300 workload_instance_ratio : ", workload_instance_ratio)
+						}
+						if (rows_spec[i][0] == "amplification"){
+							amplification, _ = strconv.ParseFloat(rows_spec[i][1], 64) 
+							fmt.Print(" wja300 amplification : ", amplification)
+						}
+					}
+					num_reqs = num_reqs*amplification
+					num_reqs = num_reqs*workload_ratio/100*workload_instance_ratio/100 // alg3.7 i1 - resnet50 converting
+					conv_reqs = float64(num_reqs) / reqs_base // i1 - resnet50
+					if(request > int32(math.Ceil(conv_reqs))){
+						// nothing done
+					} else {
+						request = int32(math.Ceil(conv_reqs))
+					}
+					fmt.Print(" wja300 num_reqs : ", num_reqs)
+					fmt.Print(" wja300 conv_reqs : ", conv_reqs)
+					fmt.Print(" wja300 request : ", request)
+				}
+		} else if (sstrings.Contains(apiName, "sound") && sstrings.Contains(apiName, "p2") && sstrings.Contains(apiName, "37") ){  // alg3.7 p2 - yamnet
+				if (period_second % 60 == 0) { // every 1 minutes
+					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
+					// weight conversion (alg3.7) num_reqs -> converting
+					for i, _ := range rows_spec {
+						if (rows_spec[i][0] == "p2Y"){
+							reqs_base, _ = strconv.ParseFloat(rows_spec[i][1], 64) // rows_sepc[i][1] = i1R's reqs_base
+							fmt.Print(" wja300 Y reqs_base : ", reqs_base)
+						}
+						if (rows_spec[i][0] == "ratio"){
+							workload_ratio, _  = strconv.ParseFloat(rows_spec[i][4], 64) // rows_spec[i][1]:R'ratio, [i][2]:B, [i][3]:G, [i][4]:Y, [i][5]:S
+							fmt.Print(" wja300 workload_ratio : ", workload_ratio)
+						}
+						if (rows_spec[i][0] == "alg37p2"){
+							workload_instance_ratio, _  = strconv.ParseFloat(rows_spec[i][4], 64) // rows_spec[i][1]:R's I ratio, [i][2]:B's I ratio, [i][3]:G's I, [i][4]:Y's I, [i][5]:S's I
+							fmt.Print(" wja300 workload_instance_ratio : ", workload_instance_ratio)
+						}
+						if (rows_spec[i][0] == "amplification"){
+							amplification, _ = strconv.ParseFloat(rows_spec[i][1], 64) 
+							fmt.Print(" wja300 amplification : ", amplification)
+						}
+					}
+					num_reqs = num_reqs*amplification
+					num_reqs = num_reqs*workload_ratio/100*workload_instance_ratio/100 // alg3.7 i1 - resnet50 converting
+					conv_reqs = float64(num_reqs) / reqs_base // i1 - resnet50
+					if(request > int32(math.Ceil(conv_reqs))){
+						// nothing done
+					} else {
+						request = int32(math.Ceil(conv_reqs))
+					}
+					fmt.Print(" wja300 num_reqs : ", num_reqs)
+					fmt.Print(" wja300 conv_reqs : ", conv_reqs)
+					fmt.Print(" wja300 request : ", request)
+				}
+		} else if (sstrings.Contains(apiName, "inception") && sstrings.Contains(apiName, "p2") && sstrings.Contains(apiName, "37") ){  // alg3.7 p2 - inception
+				if (period_second % 60 == 0) { // every 1 minutes
+					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
+					// weight conversion (alg3.7) num_reqs -> converting
+					for i, _ := range rows_spec {
+						if (rows_spec[i][0] == "p2S"){
+							reqs_base, _ = strconv.ParseFloat(rows_spec[i][1], 64) // rows_sepc[i][1] = i1R's reqs_base
+							fmt.Print(" wja300 S reqs_base : ", reqs_base)
+						}
+						if (rows_spec[i][0] == "ratio"){
+							workload_ratio, _  = strconv.ParseFloat(rows_spec[i][5], 64) // rows_spec[i][1]:R'ratio, [i][2]:B, [i][3]:G, [i][4]:Y, [i][5]:S
+							fmt.Print(" wja300 workload_ratio : ", workload_ratio)
+						}
+						if (rows_spec[i][0] == "alg37p2"){
+							workload_instance_ratio, _  = strconv.ParseFloat(rows_spec[i][5], 64) // rows_spec[i][1]:R's I ratio, [i][2]:B's I ratio, [i][3]:G's I, [i][4]:Y's I, [i][5]:S's I
+							fmt.Print(" wja300 workload_instance_ratio : ", workload_instance_ratio)
+						}
+						if (rows_spec[i][0] == "amplification"){
+							amplification, _ = strconv.ParseFloat(rows_spec[i][1], 64) 
+							fmt.Print(" wja300 amplification : ", amplification)
+						}
+					}
+					num_reqs = num_reqs*amplification
+					num_reqs = num_reqs*workload_ratio/100*workload_instance_ratio/100 // alg3.7 i1 - resnet50 converting
+					conv_reqs = float64(num_reqs) / reqs_base // i1 - resnet50
+					if(request > int32(math.Ceil(conv_reqs))){
+						// nothing done
+					} else {
+						request = int32(math.Ceil(conv_reqs))
+					}
+					fmt.Print(" wja300 num_reqs : ", num_reqs)
+					fmt.Print(" wja300 conv_reqs : ", conv_reqs)
+					fmt.Print(" wja300 request : ", request)
+				}
+		} else if (sstrings.Contains(apiName, "resnet50") && sstrings.Contains(apiName, "p3") && sstrings.Contains(apiName, "37") ){  // alg3.7 p3 - resnet50
+				if (period_second % 60 == 0) { // every 1 minutes
+					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
+					// weight conversion (alg3.7) num_reqs -> converting
+					for i, _ := range rows_spec {
+						if (rows_spec[i][0] == "p3R"){
+							reqs_base, _ = strconv.ParseFloat(rows_spec[i][1], 64) // rows_sepc[i][1] = i1R's reqs_base
+							fmt.Print(" wja300 R reqs_base : ", reqs_base)
+						}
+						if (rows_spec[i][0] == "ratio"){
+							workload_ratio, _  = strconv.ParseFloat(rows_spec[i][1], 64) // rows_spec[i][1]:R'ratio, [i][2]:B, [i][3]:G, [i][4]:Y, [i][5]:S
+							fmt.Print(" wja300 workload_ratio : ", workload_ratio)
+						}
+						if (rows_spec[i][0] == "alg37p3"){
+							workload_instance_ratio, _  = strconv.ParseFloat(rows_spec[i][1], 64) // rows_spec[i][1]:R's I ratio, [i][2]:B's I ratio, [i][3]:G's I, [i][4]:Y's I, [i][5]:S's I
+							fmt.Print(" wja300 workload_instance_ratio : ", workload_instance_ratio)
+						}
+						if (rows_spec[i][0] == "amplification"){
+							amplification, _ = strconv.ParseFloat(rows_spec[i][1], 64) 
+							fmt.Print(" wja300 amplification : ", amplification)
+						}
+					}
+					num_reqs = num_reqs*amplification
+					num_reqs = num_reqs*workload_ratio/100*workload_instance_ratio/100 // alg3.7 i1 - resnet50 converting
+					conv_reqs = float64(num_reqs) / reqs_base // i1 - resnet50
+					if(request > int32(math.Ceil(conv_reqs))){
+						// nothing done
+					} else {
+						request = int32(math.Ceil(conv_reqs))
+					}
+					fmt.Print(" wja300 num_reqs : ", num_reqs)
+					fmt.Print(" wja300 conv_reqs : ", conv_reqs)
+					fmt.Print(" wja300 request : ", request)
+				}
+		} else if (sstrings.Contains(apiName, "sentiment") && sstrings.Contains(apiName, "p3") && sstrings.Contains(apiName, "37") ){  // alg3.7 p3 - bert
+				if (period_second % 60 == 0) { // every 1 minutes
+					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
+					// weight conversion (alg3.7) num_reqs -> converting
+					for i, _ := range rows_spec {
+						if (rows_spec[i][0] == "p3B"){
+							reqs_base, _ = strconv.ParseFloat(rows_spec[i][1], 64) // rows_sepc[i][1] = i1R's reqs_base
+							fmt.Print(" wja300 B reqs_base : ", reqs_base)
+						}
+						if (rows_spec[i][0] == "ratio"){
+							workload_ratio, _  = strconv.ParseFloat(rows_spec[i][2], 64) // rows_spec[i][1]:R'ratio, [i][2]:B, [i][3]:G, [i][4]:Y, [i][5]:S
+							fmt.Print(" wja300 workload_ratio : ", workload_ratio)
+						}
+						if (rows_spec[i][0] == "alg37p3"){
+							workload_instance_ratio, _  = strconv.ParseFloat(rows_spec[i][2], 64) // rows_spec[i][1]:R's I ratio, [i][2]:B's I ratio, [i][3]:G's I, [i][4]:Y's I, [i][5]:S's I
+							fmt.Print(" wja300 workload_instance_ratio : ", workload_instance_ratio)
+						}
+						if (rows_spec[i][0] == "amplification"){
+							amplification, _ = strconv.ParseFloat(rows_spec[i][1], 64) 
+							fmt.Print(" wja300 amplification : ", amplification)
+						}
+					}
+					num_reqs = num_reqs*amplification
+					num_reqs = num_reqs*workload_ratio/100*workload_instance_ratio/100 // alg3.7 i1 - resnet50 converting
+					conv_reqs = float64(num_reqs) / reqs_base // i1 - resnet50
+					if(request > int32(math.Ceil(conv_reqs))){
+						// nothing done
+					} else {
+						request = int32(math.Ceil(conv_reqs))
+					}
+					fmt.Print(" wja300 num_reqs : ", num_reqs)
+					fmt.Print(" wja300 conv_reqs : ", conv_reqs)
+					fmt.Print(" wja300 request : ", request)
+				}
+		} else if (sstrings.Contains(apiName, "text") && sstrings.Contains(apiName, "p3") && sstrings.Contains(apiName, "37") ){  // alg3.7 p3 - gpt
+				if (period_second % 60 == 0) { // every 1 minutes
+					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
+					// weight conversion (alg3.7) num_reqs -> converting
+					for i, _ := range rows_spec {
+						if (rows_spec[i][0] == "p3G"){
+							reqs_base, _ = strconv.ParseFloat(rows_spec[i][1], 64) // rows_sepc[i][1] = i1R's reqs_base
+							fmt.Print(" wja300 G reqs_base : ", reqs_base)
+						}
+						if (rows_spec[i][0] == "ratio"){
+							workload_ratio, _  = strconv.ParseFloat(rows_spec[i][3], 64) // rows_spec[i][1]:R'ratio, [i][2]:B, [i][3]:G, [i][4]:Y, [i][5]:S
+							fmt.Print(" wja300 workload_ratio : ", workload_ratio)
+						}
+						if (rows_spec[i][0] == "alg37p3"){
+							workload_instance_ratio, _  = strconv.ParseFloat(rows_spec[i][3], 64) // rows_spec[i][1]:R's I ratio, [i][2]:B's I ratio, [i][3]:G's I, [i][4]:Y's I, [i][5]:S's I
+							fmt.Print(" wja300 workload_instance_ratio : ", workload_instance_ratio)
+						}
+						if (rows_spec[i][0] == "amplification"){
+							amplification, _ = strconv.ParseFloat(rows_spec[i][1], 64) 
+							fmt.Print(" wja300 amplification : ", amplification)
+						}
+					}
+					num_reqs = num_reqs*amplification
+					num_reqs = num_reqs*workload_ratio/100*workload_instance_ratio/100 // alg3.7 i1 - resnet50 converting
+					conv_reqs = float64(num_reqs) / reqs_base // i1 - resnet50
+					if(request > int32(math.Ceil(conv_reqs))){
+						// nothing done
+					} else {
+						request = int32(math.Ceil(conv_reqs))
+					}
+					fmt.Print(" wja300 num_reqs : ", num_reqs)
+					fmt.Print(" wja300 conv_reqs : ", conv_reqs)
+					fmt.Print(" wja300 request : ", request)
+				}
+		} else if (sstrings.Contains(apiName, "sound") && sstrings.Contains(apiName, "p3") && sstrings.Contains(apiName, "37") ){  // alg3.7 p3 - yamnet
+				if (period_second % 60 == 0) { // every 1 minutes
+					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
+					// weight conversion (alg3.7) num_reqs -> converting
+					for i, _ := range rows_spec {
+						if (rows_spec[i][0] == "p3Y"){
+							reqs_base, _ = strconv.ParseFloat(rows_spec[i][1], 64) // rows_sepc[i][1] = i1R's reqs_base
+							fmt.Print(" wja300 Y reqs_base : ", reqs_base)
+						}
+						if (rows_spec[i][0] == "ratio"){
+							workload_ratio, _  = strconv.ParseFloat(rows_spec[i][4], 64) // rows_spec[i][1]:R'ratio, [i][2]:B, [i][3]:G, [i][4]:Y, [i][5]:S
+							fmt.Print(" wja300 workload_ratio : ", workload_ratio)
+						}
+						if (rows_spec[i][0] == "alg37p3"){
+							workload_instance_ratio, _  = strconv.ParseFloat(rows_spec[i][4], 64) // rows_spec[i][1]:R's I ratio, [i][2]:B's I ratio, [i][3]:G's I, [i][4]:Y's I, [i][5]:S's I
+							fmt.Print(" wja300 workload_instance_ratio : ", workload_instance_ratio)
+						}
+						if (rows_spec[i][0] == "amplification"){
+							amplification, _ = strconv.ParseFloat(rows_spec[i][1], 64) 
+							fmt.Print(" wja300 amplification : ", amplification)
+						}
+					}
+					num_reqs = num_reqs*amplification
+					num_reqs = num_reqs*workload_ratio/100*workload_instance_ratio/100 // alg3.7 i1 - resnet50 converting
+					conv_reqs = float64(num_reqs) / reqs_base // i1 - resnet50
+					if(request > int32(math.Ceil(conv_reqs))){
+						// nothing done
+					} else {
+						request = int32(math.Ceil(conv_reqs))
+					}
+					fmt.Print(" wja300 num_reqs : ", num_reqs)
+					fmt.Print(" wja300 conv_reqs : ", conv_reqs)
+					fmt.Print(" wja300 request : ", request)
+				}
+		} else if (sstrings.Contains(apiName, "inception") && sstrings.Contains(apiName, "p3") && sstrings.Contains(apiName, "37") ){  // alg3.7 p3 - inception
+				if (period_second % 60 == 0) { // every 1 minutes
+					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
+					// weight conversion (alg3.7) num_reqs -> converting
+					for i, _ := range rows_spec {
+						if (rows_spec[i][0] == "p3S"){
+							reqs_base, _ = strconv.ParseFloat(rows_spec[i][1], 64) // rows_sepc[i][1] = i1R's reqs_base
+							fmt.Print(" wja300 S reqs_base : ", reqs_base)
+						}
+						if (rows_spec[i][0] == "ratio"){
+							workload_ratio, _  = strconv.ParseFloat(rows_spec[i][5], 64) // rows_spec[i][1]:R'ratio, [i][2]:B, [i][3]:G, [i][4]:Y, [i][5]:S
+							fmt.Print(" wja300 workload_ratio : ", workload_ratio)
+						}
+						if (rows_spec[i][0] == "alg37p3"){
+							workload_instance_ratio, _  = strconv.ParseFloat(rows_spec[i][5], 64) // rows_spec[i][1]:R's I ratio, [i][2]:B's I ratio, [i][3]:G's I, [i][4]:Y's I, [i][5]:S's I
+							fmt.Print(" wja300 workload_instance_ratio : ", workload_instance_ratio)
+						}
+						if (rows_spec[i][0] == "amplification"){
+							amplification, _ = strconv.ParseFloat(rows_spec[i][1], 64) 
+							fmt.Print(" wja300 amplification : ", amplification)
+						}
+					}
+					num_reqs = num_reqs*amplification
+					num_reqs = num_reqs*workload_ratio/100*workload_instance_ratio/100 // alg3.7 i1 - resnet50 converting
+					conv_reqs = float64(num_reqs) / reqs_base // i1 - resnet50
+					if(request > int32(math.Ceil(conv_reqs))){
+						// nothing done
+					} else {
+						request = int32(math.Ceil(conv_reqs))
+					}
+					fmt.Print(" wja300 num_reqs : ", num_reqs)
+					fmt.Print(" wja300 conv_reqs : ", conv_reqs)
+					fmt.Print(" wja300 request : ", request)
+				}
+		} else if (sstrings.Contains(apiName, "resnet50") && sstrings.Contains(apiName, "c5") && sstrings.Contains(apiName, "37") ){  // alg3.7 c5 - resnet50
+				if (period_second % 60 == 0) { // every 1 minutes
+					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
+					// weight conversion (alg3.7) num_reqs -> converting
+					for i, _ := range rows_spec {
+						if (rows_spec[i][0] == "c5R"){
+							reqs_base, _ = strconv.ParseFloat(rows_spec[i][1], 64) // rows_sepc[i][1] = i1R's reqs_base
+							fmt.Print(" wja300 R reqs_base : ", reqs_base)
+						}
+						if (rows_spec[i][0] == "ratio"){
+							workload_ratio, _  = strconv.ParseFloat(rows_spec[i][1], 64) // rows_spec[i][1]:R'ratio, [i][2]:B, [i][3]:G, [i][4]:Y, [i][5]:S
+							fmt.Print(" wja300 workload_ratio : ", workload_ratio)
+						}
+						if (rows_spec[i][0] == "alg37c5"){
+							workload_instance_ratio, _  = strconv.ParseFloat(rows_spec[i][1], 64) // rows_spec[i][1]:R's I ratio, [i][2]:B's I ratio, [i][3]:G's I, [i][4]:Y's I, [i][5]:S's I
+							fmt.Print(" wja300 workload_instance_ratio : ", workload_instance_ratio)
+						}
+						if (rows_spec[i][0] == "amplification"){
+							amplification, _ = strconv.ParseFloat(rows_spec[i][1], 64) 
+							fmt.Print(" wja300 amplification : ", amplification)
+						}
+					}
+					num_reqs = num_reqs*amplification
+					num_reqs = num_reqs*workload_ratio/100*workload_instance_ratio/100 // alg3.7 i1 - resnet50 converting
+					conv_reqs = float64(num_reqs) / reqs_base // i1 - resnet50
+					if(request > int32(math.Ceil(conv_reqs))){
+						// nothing done
+					} else {
+						request = int32(math.Ceil(conv_reqs))
+					}
+					fmt.Print(" wja300 num_reqs : ", num_reqs)
+					fmt.Print(" wja300 conv_reqs : ", conv_reqs)
+					fmt.Print(" wja300 request : ", request)
+				}
+		} else if (sstrings.Contains(apiName, "sentiment") && sstrings.Contains(apiName, "c5") && sstrings.Contains(apiName, "37") ){  // alg3.7 c5 - bert
+				if (period_second % 60 == 0) { // every 1 minutes
+					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
+					// weight conversion (alg3.7) num_reqs -> converting
+					for i, _ := range rows_spec {
+						if (rows_spec[i][0] == "c5B"){
+							reqs_base, _ = strconv.ParseFloat(rows_spec[i][1], 64) // rows_sepc[i][1] = i1R's reqs_base
+							fmt.Print(" wja300 B reqs_base : ", reqs_base)
+						}
+						if (rows_spec[i][0] == "ratio"){
+							workload_ratio, _  = strconv.ParseFloat(rows_spec[i][2], 64) // rows_spec[i][1]:R'ratio, [i][2]:B, [i][3]:G, [i][4]:Y, [i][5]:S
+							fmt.Print(" wja300 workload_ratio : ", workload_ratio)
+						}
+						if (rows_spec[i][0] == "alg37c5"){
+							workload_instance_ratio, _  = strconv.ParseFloat(rows_spec[i][2], 64) // rows_spec[i][1]:R's I ratio, [i][2]:B's I ratio, [i][3]:G's I, [i][4]:Y's I, [i][5]:S's I
+							fmt.Print(" wja300 workload_instance_ratio : ", workload_instance_ratio)
+						}
+						if (rows_spec[i][0] == "amplification"){
+							amplification, _ = strconv.ParseFloat(rows_spec[i][1], 64) 
+							fmt.Print(" wja300 amplification : ", amplification)
+						}
+					}
+					num_reqs = num_reqs*amplification
+					num_reqs = num_reqs*workload_ratio/100*workload_instance_ratio/100 // alg3.7 i1 - resnet50 converting
+					conv_reqs = float64(num_reqs) / reqs_base // i1 - resnet50
+					if(request > int32(math.Ceil(conv_reqs))){
+						// nothing done
+					} else {
+						request = int32(math.Ceil(conv_reqs))
+					}
+					fmt.Print(" wja300 num_reqs : ", num_reqs)
+					fmt.Print(" wja300 conv_reqs : ", conv_reqs)
+					fmt.Print(" wja300 request : ", request)
+				}
+		} else if (sstrings.Contains(apiName, "text") && sstrings.Contains(apiName, "c5") && sstrings.Contains(apiName, "37") ){  // alg3.7 c5 - gpt
+				if (period_second % 60 == 0) { // every 1 minutes
+					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
+					// weight conversion (alg3.7) num_reqs -> converting
+					for i, _ := range rows_spec {
+						if (rows_spec[i][0] == "c5G"){
+							reqs_base, _ = strconv.ParseFloat(rows_spec[i][1], 64) // rows_sepc[i][1] = i1R's reqs_base
+							fmt.Print(" wja300 G reqs_base : ", reqs_base)
+						}
+						if (rows_spec[i][0] == "ratio"){
+							workload_ratio, _  = strconv.ParseFloat(rows_spec[i][3], 64) // rows_spec[i][1]:R'ratio, [i][2]:B, [i][3]:G, [i][4]:Y, [i][5]:S
+							fmt.Print(" wja300 workload_ratio : ", workload_ratio)
+						}
+						if (rows_spec[i][0] == "alg37c5"){
+							workload_instance_ratio, _  = strconv.ParseFloat(rows_spec[i][3], 64) // rows_spec[i][1]:R's I ratio, [i][2]:B's I ratio, [i][3]:G's I, [i][4]:Y's I, [i][5]:S's I
+							fmt.Print(" wja300 workload_instance_ratio : ", workload_instance_ratio)
+						}
+						if (rows_spec[i][0] == "amplification"){
+							amplification, _ = strconv.ParseFloat(rows_spec[i][1], 64) 
+							fmt.Print(" wja300 amplification : ", amplification)
+						}
+					}
+					num_reqs = num_reqs*amplification
+					num_reqs = num_reqs*workload_ratio/100*workload_instance_ratio/100 // alg3.7 i1 - resnet50 converting
+					conv_reqs = float64(num_reqs) / reqs_base // i1 - resnet50
+					if(request > int32(math.Ceil(conv_reqs))){
+						// nothing done
+					} else {
+						request = int32(math.Ceil(conv_reqs))
+					}
+					fmt.Print(" wja300 num_reqs : ", num_reqs)
+					fmt.Print(" wja300 conv_reqs : ", conv_reqs)
+					fmt.Print(" wja300 request : ", request)
+				}
+		} else if (sstrings.Contains(apiName, "sound") && sstrings.Contains(apiName, "c5") && sstrings.Contains(apiName, "37") ){  // alg3.7 c5 - yamnet
+				if (period_second % 60 == 0) { // every 1 minutes
+					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
+					// weight conversion (alg3.7) num_reqs -> converting
+					for i, _ := range rows_spec {
+						if (rows_spec[i][0] == "c5Y"){
+							reqs_base, _ = strconv.ParseFloat(rows_spec[i][1], 64) // rows_sepc[i][1] = i1R's reqs_base
+							fmt.Print(" wja300 Y reqs_base : ", reqs_base)
+						}
+						if (rows_spec[i][0] == "ratio"){
+							workload_ratio, _  = strconv.ParseFloat(rows_spec[i][4], 64) // rows_spec[i][1]:R'ratio, [i][2]:B, [i][3]:G, [i][4]:Y, [i][5]:S
+							fmt.Print(" wja300 workload_ratio : ", workload_ratio)
+						}
+						if (rows_spec[i][0] == "alg37c5"){
+							workload_instance_ratio, _  = strconv.ParseFloat(rows_spec[i][4], 64) // rows_spec[i][1]:R's I ratio, [i][2]:B's I ratio, [i][3]:G's I, [i][4]:Y's I, [i][5]:S's I
+							fmt.Print(" wja300 workload_instance_ratio : ", workload_instance_ratio)
+						}
+						if (rows_spec[i][0] == "amplification"){
+							amplification, _ = strconv.ParseFloat(rows_spec[i][1], 64) 
+							fmt.Print(" wja300 amplification : ", amplification)
+						}
+					}
+					num_reqs = num_reqs*amplification
+					num_reqs = num_reqs*workload_ratio/100*workload_instance_ratio/100 // alg3.7 i1 - resnet50 converting
+					conv_reqs = float64(num_reqs) / reqs_base // i1 - resnet50
+					if(request > int32(math.Ceil(conv_reqs))){
+						// nothing done
+					} else {
+						request = int32(math.Ceil(conv_reqs))
+					}
+					fmt.Print(" wja300 num_reqs : ", num_reqs)
+					fmt.Print(" wja300 conv_reqs : ", conv_reqs)
+					fmt.Print(" wja300 request : ", request)
+				}
+		} else if (sstrings.Contains(apiName, "inception") && sstrings.Contains(apiName, "c5") && sstrings.Contains(apiName, "37") ){  // alg3.7 c5 - inception
+				if (period_second % 60 == 0) { // every 1 minutes
+					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
+					// weight conversion (alg3.7) num_reqs -> converting
+					for i, _ := range rows_spec {
+						if (rows_spec[i][0] == "c5S"){
+							reqs_base, _ = strconv.ParseFloat(rows_spec[i][1], 64) // rows_sepc[i][1] = i1R's reqs_base
+							fmt.Print(" wja300 S reqs_base : ", reqs_base)
+						}
+						if (rows_spec[i][0] == "ratio"){
+							workload_ratio, _  = strconv.ParseFloat(rows_spec[i][5], 64) // rows_spec[i][1]:R'ratio, [i][2]:B, [i][3]:G, [i][4]:Y, [i][5]:S
+							fmt.Print(" wja300 workload_ratio : ", workload_ratio)
+						}
+						if (rows_spec[i][0] == "alg37c5"){
+							workload_instance_ratio, _  = strconv.ParseFloat(rows_spec[i][5], 64) // rows_spec[i][1]:R's I ratio, [i][2]:B's I ratio, [i][3]:G's I, [i][4]:Y's I, [i][5]:S's I
+							fmt.Print(" wja300 workload_instance_ratio : ", workload_instance_ratio)
+						}
+						if (rows_spec[i][0] == "amplification"){
+							amplification, _ = strconv.ParseFloat(rows_spec[i][1], 64) 
+							fmt.Print(" wja300 amplification : ", amplification)
+						}
+					}
+					num_reqs = num_reqs*amplification
+					num_reqs = num_reqs*workload_ratio/100*workload_instance_ratio/100 // alg3.7 i1 - resnet50 converting
+					conv_reqs = float64(num_reqs) / reqs_base // i1 - resnet50
+					if(request > int32(math.Ceil(conv_reqs))){
+						// nothing done
+					} else {
+						request = int32(math.Ceil(conv_reqs))
+					}
+					fmt.Print(" wja300 num_reqs : ", num_reqs)
+					fmt.Print(" wja300 conv_reqs : ", conv_reqs)
+					fmt.Print(" wja300 request : ", request)
+				}
+		}
 
 
 
@@ -493,4 +997,5 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 
 		return nil
 	}, nil
+
 }

@@ -26,6 +26,8 @@ COPY --from=builder /go/src/github.com/cortexlabs/cortex/pkg/operator/operator /
 RUN chmod +x /root/operator
 
 COPY pkg/operator/lib/autoscaler/tweet_load_predict_5min_10-16.csv /
+COPY pkg/operator/lib/autoscaler/spec.csv /
+
 
 EXPOSE 8888
 ENTRYPOINT ["/root/operator"]
