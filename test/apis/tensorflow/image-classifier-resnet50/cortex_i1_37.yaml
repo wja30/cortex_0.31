@@ -19,7 +19,7 @@
     mem: 4G
   autoscaling:
     min_replicas: 1
-    max_replicas: 25
+    max_replicas: 5
     max_replica_concurrency: 8192
     #window: 60s
     target_replica_concurrency : 1

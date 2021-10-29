@@ -1,6 +1,7 @@
 /vendor/
 /bin/
 /dev/config/
+/test/apis/tensorflow/
 
 # PYTHON
 __pycache__/
