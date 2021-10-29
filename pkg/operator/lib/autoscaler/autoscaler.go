@@ -307,8 +307,8 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 							fmt.Print(" wja300 amplification : ", amplification)
 						}
 					}
-					//num_reqs = num_reqs*amplification
-					//num_reqs = num_reqs*workload_ratio/100*workload_instance_ratio/100 // alg3.7 i1 - resnet50 converting
+					num_reqs = num_reqs*amplification
+					num_reqs = num_reqs*workload_ratio/100*workload_instance_ratio/100 // alg3.7 i1 - resnet50 converting
 					conv_reqs = float64(num_reqs) / reqs_base // i1 - resnet50
 					if(request > int32(math.Ceil(conv_reqs))){
 						// nothing done
@@ -341,8 +341,8 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 							fmt.Print(" wja300 amplification : ", amplification)
 						}
 					}
-					//num_reqs = num_reqs*amplification
-					//num_reqs = num_reqs*workload_ratio/100*workload_instance_ratio/100 // alg3.7 i1 - resnet50 converting
+					num_reqs = num_reqs*amplification
+					num_reqs = num_reqs*workload_ratio/100*workload_instance_ratio/100 // alg3.7 i1 - resnet50 converting
 					conv_reqs = float64(num_reqs) / reqs_base // i1 - resnet50
 					if(request > int32(math.Ceil(conv_reqs))){
 						// nothing done
