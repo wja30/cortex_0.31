@@ -10,4 +10,7 @@ func main() {
 
 	apiName := "sentiment-analyzer-i1-37"
 	fmt.Print(sstrings.Contains(apiName, "sentiment") && sstrings.Contains(apiName, "i1") && sstrings.Contains(apiName, "37"))
-	}
+	period_second := 61
+
+	fmt.Print(period_second % 60)
+}
