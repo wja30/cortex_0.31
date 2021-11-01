@@ -271,7 +271,7 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 
 		period_second := int32(time.Since(startTime)/1000000000)
 		row_count := period_second / 60
-		timeout := 15
+		timeout := 360
 		num_reqs := 0.0
 		conv_reqs := 0.0
 		reqs_base := 0.0
