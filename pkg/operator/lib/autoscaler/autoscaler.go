@@ -271,7 +271,15 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
   //  		}
 
 
-		period_second := int32(time.Since(startTime)/1000000000)
+	 	period := time.Since(startTime) // \"period\":4992215247666
+		period_second := int32(time.Since(startTime)/1000000000) // \"period_second\":4992 // 499 get (by / 10000000000) 499*10 // how to get "2" how to get "4990"
+		// \"Period\":5412294863623,\"Period_second\":5412 // 541 get 5410 // if 5422 542 get 5420 // {\"Period\":130027293946,\"Period_second\":130 // 130 - 130 = 0)
+
+		period_second_mul := int32(time.Since(startTime)/10000000000) // 499 // 13
+		period_second_mul = period_second_mul*10 // 4990 // 130
+		time_correction := period_second - period_second_mul // 4992 - 4990 = 2 // 130 - 130 = 0 // if \"Period\":7212738760866,\"Period_second\":7212
+
+
 		row_count := period_second / 60
 		timeout := 360
 		num_reqs := 0.0
@@ -281,6 +289,9 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 		workload_instance_ratio := 0.0
 		amplification := 0.0
 
+		fmt.Print(" time_correction : ", time_correction)
+		fmt.Print(" period_second - time_correction : ", period_second - time_correction)
+		fmt.Print(" (period_second - time_correction) % 60 : ", (period_second -time_correction) % 60)
                 fmt.Print(" wja300 num_rows : ", num_rows)
 		fmt.Print(" wja300 row_count : ", row_count)
 		fmt.Print(" wja300 timeout : ", timeout)
@@ -288,7 +299,7 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 		if (row_count  > int32(timeout) || row_count +4 >= int32(num_rows)){
 			// nothing done
 		} else if (sstrings.Contains(apiName, "resnet50") && sstrings.Contains(apiName, "i1") && sstrings.Contains(apiName, "37") ){  // alg3.7 i1 - resnet50
-				if (period_second % 60 <= 7) { // every 1 minutes
+				if ((period_second - time_correction) % 60 <= 9) { // every 1 minutes
 					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
 					// weight conversion (alg3.7) num_reqs -> converting
 					for i, _ := range rows_spec {
@@ -322,7 +333,7 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 					fmt.Print(" wja300 request : ", request)
 				}
 		} else if (sstrings.Contains(apiName, "sentiment") && sstrings.Contains(apiName, "i1") && sstrings.Contains(apiName, "37") ){  // alg3.7 i1 - bert
-				if (period_second % 60 <= 7) { // every 1 minutes
+				if ((period_second - time_correction) % 60 <= 9) { // every 1 minutes
 					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
 					// weight conversion (alg3.7) num_reqs -> converting
 					for i, _ := range rows_spec {
@@ -356,7 +367,7 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 					fmt.Print(" wja300 request : ", request)
 				}
 		} else if (sstrings.Contains(apiName, "text") && sstrings.Contains(apiName, "i1") && sstrings.Contains(apiName, "37") ){  // alg3.7 i1 - gpt
-				if (period_second % 60 <= 7) { // every 1 minutes
+				if ((period_second - time_correction) % 60 <= 9) { // every 1 minutes
 					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
 					// weight conversion (alg3.7) num_reqs -> converting
 					for i, _ := range rows_spec {
@@ -390,7 +401,7 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 					fmt.Print(" wja300 request : ", request)
 				}
 		} else if (sstrings.Contains(apiName, "sound") && sstrings.Contains(apiName, "i1") && sstrings.Contains(apiName, "37") ){  // alg3.7 i1 - yamnet
-				if (period_second % 60 <= 7) { // every 1 minutes
+				if ((period_second - time_correction) % 60 <= 9) { // every 1 minutes
 					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
 					// weight conversion (alg3.7) num_reqs -> converting
 					for i, _ := range rows_spec {
@@ -424,7 +435,7 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 					fmt.Print(" wja300 request : ", request)
 				}
 		} else if (sstrings.Contains(apiName, "inception") && sstrings.Contains(apiName, "i1") && sstrings.Contains(apiName, "37") ){  // alg3.7 i1 - inception
-				if (period_second % 60 <= 7) { // every 1 minutes
+				if ((period_second - time_correction) % 60 <= 9) { // every 1 minutes
 					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
 					// weight conversion (alg3.7) num_reqs -> converting
 					for i, _ := range rows_spec {
@@ -458,7 +469,7 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 					fmt.Print(" wja300 request : ", request)
 				}
 		} else if (sstrings.Contains(apiName, "resnet50") && sstrings.Contains(apiName, "p2") && sstrings.Contains(apiName, "37") ){  // alg3.7 p2 - resnet50
-				if (period_second % 60 <= 7) { // every 1 minutes
+				if ((period_second - time_correction) % 60 <= 9) { // every 1 minutes
 					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
 					// weight conversion (alg3.7) num_reqs -> converting
 					for i, _ := range rows_spec {
@@ -492,7 +503,7 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 					fmt.Print(" wja300 request : ", request)
 				}
 		} else if (sstrings.Contains(apiName, "sentiment") && sstrings.Contains(apiName, "p2") && sstrings.Contains(apiName, "37") ){  // alg3.7 p2 - bert
-				if (period_second % 60 <= 7) { // every 1 minutes
+				if ((period_second - time_correction) % 60 <= 9) { // every 1 minutes
 					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
 					// weight conversion (alg3.7) num_reqs -> converting
 					for i, _ := range rows_spec {
@@ -526,7 +537,7 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 					fmt.Print(" wja300 request : ", request)
 				}
 		} else if (sstrings.Contains(apiName, "text") && sstrings.Contains(apiName, "p2") && sstrings.Contains(apiName, "37") ){  // alg3.7 p2 - gpt
-				if (period_second % 60 <= 7) { // every 1 minutes
+				if ((period_second - time_correction) % 60 <= 9) { // every 1 minutes
 					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
 					// weight conversion (alg3.7) num_reqs -> converting
 					for i, _ := range rows_spec {
@@ -560,7 +571,7 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 					fmt.Print(" wja300 request : ", request)
 				}
 		} else if (sstrings.Contains(apiName, "sound") && sstrings.Contains(apiName, "p2") && sstrings.Contains(apiName, "37") ){  // alg3.7 p2 - yamnet
-				if (period_second % 60 <= 7) { // every 1 minutes
+				if ((period_second - time_correction) % 60 <= 9) { // every 1 minutes
 					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
 					// weight conversion (alg3.7) num_reqs -> converting
 					for i, _ := range rows_spec {
@@ -594,7 +605,7 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 					fmt.Print(" wja300 request : ", request)
 				}
 		} else if (sstrings.Contains(apiName, "inception") && sstrings.Contains(apiName, "p2") && sstrings.Contains(apiName, "37") ){  // alg3.7 p2 - inception
-				if (period_second % 60 <= 7) { // every 1 minutes
+				if ((period_second - time_correction) % 60 <= 9) { // every 1 minutes
 					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
 					// weight conversion (alg3.7) num_reqs -> converting
 					for i, _ := range rows_spec {
@@ -628,7 +639,7 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 					fmt.Print(" wja300 request : ", request)
 				}
 		} else if (sstrings.Contains(apiName, "resnet50") && sstrings.Contains(apiName, "p3") && sstrings.Contains(apiName, "37") ){  // alg3.7 p3 - resnet50
-				if (period_second % 60 <= 7) { // every 1 minutes
+				if ((period_second - time_correction) % 60 <= 9) { // every 1 minutes
 					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
 					// weight conversion (alg3.7) num_reqs -> converting
 					for i, _ := range rows_spec {
@@ -662,7 +673,7 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 					fmt.Print(" wja300 request : ", request)
 				}
 		} else if (sstrings.Contains(apiName, "sentiment") && sstrings.Contains(apiName, "p3") && sstrings.Contains(apiName, "37") ){  // alg3.7 p3 - bert
-				if (period_second % 60 <= 7) { // every 1 minutes
+				if ((period_second - time_correction) % 60 <= 9) { // every 1 minutes
 					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
 					// weight conversion (alg3.7) num_reqs -> converting
 					for i, _ := range rows_spec {
@@ -696,7 +707,7 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 					fmt.Print(" wja300 request : ", request)
 				}
 		} else if (sstrings.Contains(apiName, "text") && sstrings.Contains(apiName, "p3") && sstrings.Contains(apiName, "37") ){  // alg3.7 p3 - gpt
-				if (period_second % 60 <= 7) { // every 1 minutes
+				if ((period_second - time_correction) % 60 <= 9) { // every 1 minutes
 					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
 					// weight conversion (alg3.7) num_reqs -> converting
 					for i, _ := range rows_spec {
@@ -730,7 +741,7 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 					fmt.Print(" wja300 request : ", request)
 				}
 		} else if (sstrings.Contains(apiName, "sound") && sstrings.Contains(apiName, "p3") && sstrings.Contains(apiName, "37") ){  // alg3.7 p3 - yamnet
-				if (period_second % 60 <= 7) { // every 1 minutes
+				if ((period_second - time_correction) % 60 <= 9) { // every 1 minutes
 					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
 					// weight conversion (alg3.7) num_reqs -> converting
 					for i, _ := range rows_spec {
@@ -764,7 +775,7 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 					fmt.Print(" wja300 request : ", request)
 				}
 		} else if (sstrings.Contains(apiName, "inception") && sstrings.Contains(apiName, "p3") && sstrings.Contains(apiName, "37") ){  // alg3.7 p3 - inception
-				if (period_second % 60 <= 7) { // every 1 minutes
+				if ((period_second - time_correction) % 60 <= 9) { // every 1 minutes
 					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
 					// weight conversion (alg3.7) num_reqs -> converting
 					for i, _ := range rows_spec {
@@ -798,7 +809,7 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 					fmt.Print(" wja300 request : ", request)
 				}
 		} else if (sstrings.Contains(apiName, "resnet50") && sstrings.Contains(apiName, "c5") && sstrings.Contains(apiName, "37") ){  // alg3.7 c5 - resnet50
-				if (period_second % 60 <= 7) { // every 1 minutes
+				if ((period_second - time_correction) % 60 <= 9) { // every 1 minutes
 					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
 					// weight conversion (alg3.7) num_reqs -> converting
 					for i, _ := range rows_spec {
@@ -832,7 +843,7 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 					fmt.Print(" wja300 request : ", request)
 				}
 		} else if (sstrings.Contains(apiName, "sentiment") && sstrings.Contains(apiName, "c5") && sstrings.Contains(apiName, "37") ){  // alg3.7 c5 - bert
-				if (period_second % 60 <= 7) { // every 1 minutes
+				if ((period_second - time_correction) % 60 <= 9) { // every 1 minutes
 					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
 					// weight conversion (alg3.7) num_reqs -> converting
 					for i, _ := range rows_spec {
@@ -866,7 +877,7 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 					fmt.Print(" wja300 request : ", request)
 				}
 		} else if (sstrings.Contains(apiName, "text") && sstrings.Contains(apiName, "c5") && sstrings.Contains(apiName, "37") ){  // alg3.7 c5 - gpt
-				if (period_second % 60 <= 7) { // every 1 minutes
+				if ((period_second - time_correction) % 60 <= 9) { // every 1 minutes
 					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
 					// weight conversion (alg3.7) num_reqs -> converting
 					for i, _ := range rows_spec {
@@ -900,7 +911,7 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 					fmt.Print(" wja300 request : ", request)
 				}
 		} else if (sstrings.Contains(apiName, "sound") && sstrings.Contains(apiName, "c5") && sstrings.Contains(apiName, "37") ){  // alg3.7 c5 - yamnet
-				if (period_second % 60 <= 7) { // every 1 minutes
+				if ((period_second - time_correction) % 60 <= 9) { // every 1 minutes
 					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
 					// weight conversion (alg3.7) num_reqs -> converting
 					for i, _ := range rows_spec {
@@ -934,7 +945,7 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 					fmt.Print(" wja300 request : ", request)
 				}
 		} else if (sstrings.Contains(apiName, "inception") && sstrings.Contains(apiName, "c5") && sstrings.Contains(apiName, "37") ){  // alg3.7 c5 - inception
-				if (period_second % 60 <= 7) { // every 1 minutes
+				if ((period_second - time_correction) % 60 <= 9) { // every 1 minutes
 					num_reqs, _ = strconv.ParseFloat(rows[row_count+4][1], 64)
 					// weight conversion (alg3.7) num_reqs -> converting
 					for i, _ := range rows_spec {
@@ -973,7 +984,7 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 
 // autoscaling control /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		if (period_second % 60 <= 7){
+		if ((period_second - time_correction) % 60 <= 9){
 
 			if currentReplicas != request {
 				apiLogger.Infof("%s autoscaling event: %d -> %d", apiName, currentReplicas, request)
@@ -1002,4 +1013,3 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 	}, nil
 
 }
-
