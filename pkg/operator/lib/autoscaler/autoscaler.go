@@ -288,7 +288,9 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 		workload_ratio := 0.0
 		workload_instance_ratio := 0.0
 		amplification := 0.0
-
+		
+		fmt.Print(" period : ", period)
+		fmt.Print(" period_second : ", period_second)
 		fmt.Print(" time_correction : ", time_correction)
 		fmt.Print(" period_second - time_correction : ", period_second - time_correction)
 		fmt.Print(" (period_second - time_correction) % 60 : ", (period_second -time_correction) % 60)
