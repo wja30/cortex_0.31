@@ -251,7 +251,13 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 					if err != nil {
 						panic(err)
 					}
-					request = int32(i)
+
+					if(request > int32(i)){ // if inflight cortex decision is larger than scheduler decision
+						// nothing done
+					} else { // if scheduler decision is larger than infiight cortex decision
+						request = int32(i)
+					}
+					//request = int32(i)
 				}
 			}
 			//fmt.Println(i, ":", arr[i])
