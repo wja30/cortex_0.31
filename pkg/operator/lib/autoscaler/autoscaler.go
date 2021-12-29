@@ -233,7 +233,25 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 			panic(err)
                 }
 		fmt.Println("wja300: value : ", val)  
-		
+
+		instype := []string{"i1", "p2", "p3", "c5"}
+		reqtype := []string{"R", "B", "G", "Y", "S"}
+		reqtype_detail := []string{"resnet50", "sentiment", "text", "sound", "inception"}
+
+		for i := 0; i < len(reqtype); i++ {
+			for j :=0; j < len(instype); j++{
+				if (sstrings.Contains(apiName, reqtype_detail[i]) && sstrings.Contains(apiName, instype[j])){ 
+					val, err := client.Get(instype[j]+reqtype[i]+"_scaler").Result()
+                			if err != nil {
+						panic(err)
+                			}
+					request = val // for each req and instype get the number of scaling instances
+				}
+			}
+			//fmt.Println(i, ":", arr[i])
+		}
+
+
 		if currentReplicas != request {
 			apiLogger.Infof("%s autoscaling event: %d -> %d", apiName, currentReplicas, request)
 
