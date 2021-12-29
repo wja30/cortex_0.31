@@ -31,6 +31,8 @@ import (
 	"github.com/cortexlabs/cortex/pkg/types/userconfig"
 	kapps "k8s.io/api/apps/v1"
 	redis "github.com/go-redis/redis"
+	sstrings "strings"
+	"strconv"
 )
 
 
@@ -245,7 +247,11 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
                 			if err != nil {
 						panic(err)
                 			}
-					request = val // for each req and instype get the number of scaling instances
+					i, err := strconv.ParseInt(val, 10, 32) // for each req and instype get the number of scaling instances
+					if err != nil {
+						panic(err)
+					}
+					request = int32(i)
 				}
 			}
 			//fmt.Println(i, ":", arr[i])
