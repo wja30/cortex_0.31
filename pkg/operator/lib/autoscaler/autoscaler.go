@@ -263,7 +263,11 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 			//fmt.Println(i, ":", arr[i])
 		}
 
-
+		fmt.Println("wja300: request :", request)  
+		fmt.Println("wja300: currentReplicas :", currentReplicas)
+	 	fmt.Println("wja300: recommendation :", recommendation)
+		fmt.Println("wja300: avgInFlight :", avgInFlight)
+		fmt.Println("wja300: rawRecommendation :", rawRecommendation)
 		if currentReplicas != request {
 			apiLogger.Infof("%s autoscaling event: %d -> %d", apiName, currentReplicas, request)
 
