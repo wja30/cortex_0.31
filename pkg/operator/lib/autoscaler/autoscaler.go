@@ -1,12 +1,9 @@
 /*
 Copyright 2021 Cortex Labs, Inc.
-
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,22 +27,7 @@ import (
 	"github.com/cortexlabs/cortex/pkg/types/spec"
 	"github.com/cortexlabs/cortex/pkg/types/userconfig"
 	kapps "k8s.io/api/apps/v1"
-	redis "github.com/go-redis/redis"
-	sstrings "strings"
-	"strconv"
 )
-
-
-func initializeRedisClient() (*redis.Client, error) {
-	client := redis.NewClient(&redis.Options{
-        Addr:     "23.23.220.207:6379", // 접근 url 및 port
-        Password: "redisscheduler",               // password ""값은 없다는 뜻
-        DB:       0,                // 기본 DB 사용
-        })
-
-        _, err := client.Ping().Result()
-	return client, err
-}
 
 // GetInFlightFunc is the function signature used by the autoscaler to retrieve
 // the number of in-flight requests / messages
@@ -118,7 +100,7 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 		return nil, err
 	}
 
-	apiLogger.Infof("%s wja300 autoscaler init", apiName)
+	apiLogger.Infof("%s autoscaler init", apiName)
 
 	var startTime time.Time
 	recs := make(recommendations)
@@ -222,52 +204,7 @@ func AutoscaleFn(initialDeployment *kapps.Deployment, apiSpec *spec.API, getInFl
 				"request":                        request,
 			},
 		)
-	
-		// redis connection
-		client, err := initializeRedisClient()
 
-                if nil != err {
-			panic(err)
-                }
-		
-		val, err := client.Get("i1R_reqs_satiSLO_60sec").Result()
-                if err != nil {
-			panic(err)
-                }
-		fmt.Println("wja300: value : ", val)  
-
-		instype := []string{"i1", "p2", "p3", "c5"}
-		reqtype := []string{"R", "B", "G", "Y", "S"}
-		reqtype_detail := []string{"resnet50", "sentiment", "text", "sound", "inception"}
-
-		for i := 0; i < len(reqtype); i++ {
-			for j :=0; j < len(instype); j++{
-				if (sstrings.Contains(apiName, reqtype_detail[i]) && sstrings.Contains(apiName, instype[j])){ 
-					val, err := client.Get(instype[j]+reqtype[i]+"_scaler").Result()
-                			if err != nil {
-						panic(err)
-                			}
-					i, err := strconv.ParseInt(val, 10, 32) // for each req and instype get the number of scaling instances
-					if err != nil {
-						panic(err)
-					}
-
-					if(request > int32(i)){ // if inflight cortex decision is larger than scheduler decision
-						// nothing done
-					} else { // if scheduler decision is larger than infiight cortex decision
-						request = int32(i)
-					}
-					//request = int32(i)
-				}
-			}
-			//fmt.Println(i, ":", arr[i])
-		}
-
-		fmt.Println("wja300: request :", request)  
-		fmt.Println("wja300: currentReplicas :", currentReplicas)
-	 	fmt.Println("wja300: recommendation :", recommendation)
-		fmt.Println("wja300: avgInFlight :", avgInFlight)
-		fmt.Println("wja300: rawRecommendation :", rawRecommendation)
 		if currentReplicas != request {
 			apiLogger.Infof("%s autoscaling event: %d -> %d", apiName, currentReplicas, request)
 
